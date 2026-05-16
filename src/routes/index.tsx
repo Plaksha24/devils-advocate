@@ -95,19 +95,48 @@ function generateMockResponse(idea: string): Section[] {
   ];
 }
 
+const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  support: ThumbsUp,
+  oppose: ThumbsDown,
+  real: AlertTriangle,
+  ethics: Scale,
+  balanced: Scroll,
+};
+const ACCENTS: Record<string, string> = {
+  support: "from-emerald-100 to-emerald-50 text-emerald-700",
+  oppose: "from-rose-100 to-rose-50 text-rose-700",
+  real: "from-amber-100 to-amber-50 text-amber-700",
+  ethics: "from-sky-100 to-sky-50 text-sky-700",
+  balanced: "from-indigo-100 to-indigo-50 text-indigo-700",
+};
+
 function Index() {
   const [idea, setIdea] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<Section[] | null>(null);
+  const analyze = useServerFn(analyzeIdea);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!idea.trim() || loading) return;
     setLoading(true);
+    setError(null);
     setResponse(null);
-    setTimeout(() => {
-      setResponse(generateMockResponse(idea));
+    try {
+      const result = await analyze({ data: { idea: idea.trim() } });
+      const sections: Section[] = result.sections.map((s) => ({
+        key: s.key,
+        title: s.title,
+        icon: ICONS[s.key] ?? Sparkles,
+        accent: ACCENTS[s.key] ?? "from-slate-100 to-slate-50 text-slate-700",
+        paragraphs: s.paragraphs,
+      }));
+      setResponse(sections);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
+    } finally {
       setLoading(false);
-    }, 1400);
+    }
   };
 
   return (
