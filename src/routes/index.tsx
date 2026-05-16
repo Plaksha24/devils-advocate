@@ -164,6 +164,12 @@ function Index() {
           </div>
         )}
 
+        {error && !loading && (
+          <div className="rounded-2xl border border-rose-200 bg-rose-50/80 backdrop-blur p-4 text-sm text-rose-700">
+            {error}
+          </div>
+        )}
+
         {response && (
           <div className="space-y-4">
             {response.map((section, idx) => {
