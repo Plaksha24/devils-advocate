@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, AlertTriangle, Lightbulb, Scale, Swords, Loader2, Brain } from "lucide-react";
+import { Sparkles, AlertTriangle, Scale, ThumbsUp, ThumbsDown, Scroll, Loader2, Brain } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Enter any idea, opinion, or decision and get instant counterarguments, risks, ethical concerns, and alternative perspectives to sharpen your thinking.",
+          "Share an idea or opinion and get supporting arguments, opposing views, real-world concerns, social impact, and a balanced take — in plain, conversational language.",
       },
     ],
   }),
@@ -21,54 +21,73 @@ type Section = {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
   accent: string;
-  points: string[];
+  paragraphs: string[];
 };
 
+function trimPeriod(s: string) {
+  const t = s.trim().replace(/[.!?]+$/, "");
+  return t.charAt(0).toLowerCase() + t.slice(1);
+}
+
 function generateMockResponse(idea: string): Section[] {
-  const i = idea.trim() || "your idea";
+  const raw = idea.trim();
+  const quoted = `"${raw}"`;
+  const lower = trimPeriod(raw);
+
   return [
     {
-      key: "counter",
-      title: "Counter Arguments",
-      icon: Swords,
-      accent: "from-rose-100 to-rose-50 text-rose-700",
-      points: [
-        `The core premise of "${i}" assumes the market actually wants this — most users say they want change but rarely adopt new behavior.`,
-        `Incumbents already solve a "good enough" version of this. Switching costs are higher than they appear on paper.`,
-        `What looks like an opportunity may simply be a feature, not a standalone product worth building a company around.`,
+      key: "support",
+      title: "Arguments Supporting It",
+      icon: ThumbsUp,
+      accent: "from-emerald-100 to-emerald-50 text-emerald-700",
+      paragraphs: [
+        `There's a real case to be made for ${quoted}. At its best, this point of view pushes people to be more open, more efficient, and more willing to question how things have always been done.`,
+        `People who agree with this often point to the practical benefits: it can save time, lower the barrier for beginners, and give individuals tools or freedoms they didn't have before. That kind of access matters.`,
+        `It also fits a wider trend — the world keeps moving toward solutions that are faster, easier, and more personal. Seen in that light, ${lower} isn't a strange idea at all. It's a natural next step.`,
       ],
     },
     {
-      key: "risks",
-      title: "Risks",
+      key: "oppose",
+      title: "Arguments Against It",
+      icon: ThumbsDown,
+      accent: "from-rose-100 to-rose-50 text-rose-700",
+      paragraphs: [
+        `On the other hand, there are honest reasons to push back on ${quoted}. The biggest worry is that the short-term benefits can hide longer-term costs that only show up later.`,
+        `Critics would say this view treats a complex situation as if it had a simple answer. Real life usually has trade-offs, and choosing one side too quickly can mean losing something important from the other side.`,
+        `There's also the question of who benefits the most and who gets left behind. If only some people gain from ${lower}, then it's worth asking whether the idea is as fair as it first sounds.`,
+      ],
+    },
+    {
+      key: "real",
+      title: "Real-World Concerns",
       icon: AlertTriangle,
       accent: "from-amber-100 to-amber-50 text-amber-700",
-      points: [
-        `Execution risk: the timeline to validate "${i}" is likely 2–3x longer than estimated, burning runway before signal arrives.`,
-        `Regulatory and compliance exposure could appear once the product reaches scale, especially around data and user trust.`,
-        `Dependence on a single channel or platform creates a fragile distribution model that one policy change can destroy.`,
-      ],
-    },
-    {
-      key: "alt",
-      title: "Alternative Perspectives",
-      icon: Lightbulb,
-      accent: "from-sky-100 to-sky-50 text-sky-700",
-      points: [
-        `Instead of building the full product, test the riskiest assumption first as a 1-week concierge experiment.`,
-        `Consider attacking a narrower niche where "${i}" is a painkiller, not a vitamin — depth beats breadth early on.`,
-        `Reframe the problem from the user's job-to-be-done: what are they already hiring something else to do?`,
+      paragraphs: [
+        `In practice, ${lower} doesn't happen in a vacuum. People have different backgrounds, habits, and pressures, so the same idea can play out very differently depending on the person.`,
+        `There's also the issue of dependence. Anything that becomes a daily habit slowly shapes how we think and behave — and once that habit forms, it's hard to step back from it, even when we should.`,
+        `And finally, change rarely arrives evenly. Some groups will adapt quickly while others struggle, and that gap can quietly create new problems even while it solves old ones.`,
       ],
     },
     {
       key: "ethics",
-      title: "Ethical Concerns",
+      title: "Ethical & Social Impact",
       icon: Scale,
-      accent: "from-emerald-100 to-emerald-50 text-emerald-700",
-      points: [
-        `Who could be harmed if "${i}" works exactly as intended? Second-order effects matter as much as the headline benefit.`,
-        `Data collection and consent: are users genuinely informed, or is consent buried in friction-free onboarding?`,
-        `Consider accessibility and inclusion — does the design quietly exclude users with different abilities, languages, or contexts?`,
+      accent: "from-sky-100 to-sky-50 text-sky-700",
+      paragraphs: [
+        `Ethically, ${lower} raises a fair question: just because we can do something, does that mean we should? The answer usually depends on who is affected and how much choice they actually have.`,
+        `Socially, ideas like this tend to shift what people see as "normal." Over time, that quietly changes what we expect from each other, from institutions, and from ourselves — for better or worse.`,
+        `Honesty, fairness, and respect for people who don't share the same advantages should stay part of the conversation. Without that, even a well-meaning idea can cause harm it never intended.`,
+      ],
+    },
+    {
+      key: "balanced",
+      title: "Balanced Conclusion",
+      icon: Scroll,
+      accent: "from-indigo-100 to-indigo-50 text-indigo-700",
+      paragraphs: [
+        `So where does that leave ${quoted}? Probably somewhere in the middle. There's real value in the idea, and there are real reasons to be careful with it.`,
+        `The healthiest approach is usually balance: take the benefits seriously, but don't ignore the downsides. Use the idea as a tool, not as a rule that has to apply to everyone in every situation.`,
+        `If you walk away thinking a little more clearly about both sides — and a little less certain that you already had the full answer — then this was a useful conversation to have.`,
       ],
     },
   ];
