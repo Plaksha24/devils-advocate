@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Sparkles, AlertTriangle, Scale, ThumbsUp, ThumbsDown, Scroll, Loader2, Brain } from "lucide-react";
+import { analyzeIdea } from "@/lib/analyze.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
