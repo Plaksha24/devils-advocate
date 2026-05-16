@@ -220,16 +220,16 @@ function Index() {
                     </div>
                     <h2 className="text-lg font-semibold tracking-tight">{section.title}</h2>
                   </div>
-                  <ul className="space-y-3">
-                    {section.points.map((p, i) => (
-                      <li
+                  <div className="space-y-3">
+                    {section.paragraphs.map((p, i) => (
+                      <p
                         key={i}
-                        className="text-[15px] leading-relaxed text-foreground/85 pl-4 border-l-2 border-border/70"
+                        className="text-[15px] leading-relaxed text-foreground/85"
                       >
                         {p}
-                      </li>
+                      </p>
                     ))}
-                  </ul>
+                  </div>
                 </article>
               );
             })}
