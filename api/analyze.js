@@ -6,9 +6,13 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).end();
 
-  const { idea } = req.body;
+  try {
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const idea = body?.idea;
 
-  const systemPrompt = `You are Devil's Advocate AI. Respond ONLY with a valid JSON object (no markdown, no backticks, no preamble):
+    if (!idea) return res.status(400).json({ error: "No idea provided" });
+
+    const systemPrompt = `You are Devil's Advocate AI. Respond ONLY with a valid JSON object (no markdown, no backticks, no preamble):
 {
   "counterarguments": ["...", "...", "..."],
   "risks": ["...", "...", "..."],
@@ -19,7 +23,6 @@ export default async function handler(req, res) {
 }
 Each array must have exactly 3 items. Each item must be 10-18 words max. Be ruthlessly concise.`;
 
-  try {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -37,7 +40,12 @@ Each array must have exactly 3 items. Each item must be 10-18 words max. Be ruth
     });
 
     const data = await response.json();
-    const raw = data.choices?.[0]?.message?.content || "";
+
+    if (!data.choices || !data.choices[0]) {
+      return res.status(500).json({ error: "No response from Groq", details: data });
+    }
+
+    const raw = data.choices[0].message.content || "";
     const clean = raw.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
 
