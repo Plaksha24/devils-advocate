@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Devil's Advocate AI — Stress-test your ideas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ 
+<nav>
+  <a class="nav-logo" href="#">Devil's Advocate AI</a>
+  <ul>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#analyze">Try it</a></li>
+  </ul>
+</nav>
+ 
+<!-- Hero -->
+<section class="hero">
+  <p class="hero-eyebrow">Sharpen every decision before you commit</p>
+  <h1>Stress-test your ideas with an <em>honest opponent.</em></h1>
+  <p class="hero-sub">Paste an idea, opinion, startup concept, or decision. Get instant counterarguments, risks, ethical concerns, and alternative perspectives — so you can think clearly before you act.</p>
+  <a href="#analyze" class="cta" style="text-decoration:none; padding:14px 36px; background:var(--accent); color:#0a0a0a; border-radius:4px; font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; transition:background 0.2s;">Analyze an Idea →</a>
+  <span class="scroll-hint">Scroll</span>
+</section>
+ 
+<!-- How it works -->
+<section id="how" style="padding: 0 24px 80px; display:flex; justify-content:center;">
+  <div class="how">
+    <div class="how-step">
+      <div class="how-num">01</div>
+      <h3>Share your idea</h3>
+      <p>Drop a concept, plan, or opinion in plain language.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">02</div>
+      <h3>Get challenged</h3>
+      <p>Counterarguments, risks, ethics, and alternatives.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">03</div>
+      <h3>Decide better</h3>
+      <p>Walk away with a sharper, stronger version of your idea.</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- Analyze -->
+<section id="analyze">
+  <span class="section-label">Your turn</span>
+  <h2>What's your idea?</h2>
+  <p class="lead">The AI will argue the opposite side — not because you're wrong, but to make you stronger.</p>
+ 
+  <textarea id="ideaInput" placeholder="e.g. We should offer a free tier to grow faster, or — I want to quit my job and travel for a year..."></textarea>
+ 
+  <div class="analyze-footer">
+    <span class="hint">Be specific for richer analysis.</span>
+    <button class="cta" id="analyzeBtn" onclick="analyze()">Analyze Idea</button>
+  </div>
+ 
+  <div class="error-box" id="errorBox"></div>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p class="loading-label">Building your case against you…</p>
+  </div>
+ 
+  <div id="results">
+    <!-- Injected by JS -->
+  </div>
+</section>
+ 
+<footer>
+  <span>© 2026 Devil's Advocate AI — Built to make your thinking stronger.</span>
+  <span>Powered by Claude</span>
+</footer>
+ 
+<script src="script.js"></script>
+</body>
+</html>
+ 
