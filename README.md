@@ -6,7 +6,7 @@ AI-powered tool that challenges ideas with counterarguments, risks, ethical conc
 HTML • CSS • JavaScript
 
 ## Live Demo
-Add your Vercel link here
+https://devils-advocate-sigma.vercel.app
 
 ## Author
 Plaksha Biradar
